@@ -1,414 +1,121 @@
 #include <stdio.h>
+#include <conio.h>
 #include <stdlib.h>
 #include <string.h>
-
-typedef struct {
-    char name[15];
-    int code;
-    double rate;
-
-} product;
-product item;
+#include <windows.h>
+int pass=123,qntrem;
+float tempcost;
+char del[100];
 FILE *f;
-
-void add();
-void by_rate();
-void by_name();
-void by_code();
-void viewBYcode();
-void viewBYrate();
-void viewBYname();
-void dltByName();
-void dltByCode();
-
-int i,j,k,flag;
-
-int main() {
-    printf("\n_______________________________WELCOME_________________________________________\n");
-    do {
-        printf("\n\n\n\n\t\t\t[1]Add an item\n\t\t\t[2]Buy item by name\n\t\t\t[3]Buy item by code\n");
-        printf("\t\t\t[4]Search by name\n\t\t\t[5]Search by code\n\t\t\t[6]Search by rate\n");
-        printf("\t\t\t[7]View by name\n\t\t\t[8]View by code\n\t\t\t[9]View by rate\n\t\t\t[0]Exit\n\t\t\t ");
-        scanf("%d",&j);
-
-        switch(j) {
-        case 1:
-            add();
-            break;
-        case 2:
-            dltByName();
-            break;
-        case 3:
-            dltByCode();
-
-            break;
-        case 4:
-            by_name();
-
-            break;
-        case 5:
-            by_code();
-
-            break;
-        case 6:
-            by_rate();
-            break;
-        case 7:
-            viewBYname();
-            break;
-        case 8:
-            viewBYcode();
-            break;
-        case 9:
-            viewBYrate();
-            break;
-        default:
-            if(j!=0) {
-                printf("Enter correct number\n");
-                printf("\nPress any key to try again.");
-                getch();
-            }
-            break;
-
-        }
-        system("cls");
-    } while(j!=0);
-    printf("\n\n--------------------------------GOOD BYE!!------------------------------------\n\n");
-
-    return 0;
-}
-
-void add() {
-    system("cls");
-    f=fopen("list.txt","a+");
-    printf("\n\n\t\tCode:");
-    scanf("%d",&item.code);
-    printf("\t\tName:");
-    scanf("%s",&item.name);
-    printf("\t\tRate:");
-    scanf("%lf",&item.rate);
-    fprintf(f,"\n%d\t%s\t%.2lf",item.code,item.name,item.rate);
-    printf("\nItem success fully added.\n");
-    fclose(f);
-    printf("\nPress any key to main menu.");
-    getch();
-}
-
-void by_code() {
-    system("cls");
-    int cd;
-    f=fopen("list.txt","r");
-    if(f==NULL) {
-        printf("\nfile not found\n");
-        printf("\nPress any key to main menu.");
-        getch();
-        return;
-    }
-    printf("\n\n\n\t\t\tEnter code:");
-    scanf("%d",&cd);
-    flag=0;
-    while(!feof(f)) {
-        fscanf(f,"%d\t%s\t%lf\t",&item.code,item.name,&item.rate);
-        if(cd==item.code) {
-            flag=1;
+struct product
+{
+    char name[100];
+    int quantity;
+    float cost;
+};
+struct product p;
+void rem()
+{
+    f=fopen("stock.txt","a+");
+    while(!feof(f))
+    {
+        fscanf(f,"%s %d %f",p.name,&p.quantity,&p.cost);
+        if(stricmp(del,p.name)==0)
+        {
+            p.quantity-=qntrem;
+            tempcost=p.cost;
             break;
         }
     }
-    if(flag==0)
-        printf("\nNot Found!!\n");
-    else {
-        printf("\n\t\tCode\tName\tRate\n");
-        printf("\n\t\t%d\t%s\t%.2lf\n",item.code,item.name,item.rate);
-    }
     fclose(f);
-    printf("\nPress any key to main menu.");
+}
+void add()
+{
+    system("cls");
+    f=fopen("stock.txt","a");
+    char tempstr[100];
+    int temp;
+    float tempf;
+    printf("Enter the Name, Quantity and Cost of the product respectively: ");
+    scanf("%s %d %f",tempstr,&temp,&tempf);
+    fprintf(f,"%s %d %f",tempstr,temp,tempf);
+    fclose(f);
+    printf("Press any key to continue to the main menu\n");
     getch();
 }
-
-void by_rate() {
+void sys()
+{
     system("cls");
-    int rt;
-    f=fopen("list.txt","r");
-    if(f==NULL) {
-        printf("\nfile not found\n");
-        printf("\nPress any key to main menu.");
-        getch();
-        return;
+    printf("\t\t\t\t\t\tSuccessfully logged in\n\n");
+    printf("\t\t\t\t\t\tAction to do\n\t\t\t\t\t\t[1]Inventory Management\n\t\t\t\t\t\t[2]Finance Management\n\t\t\t\t\t\t[0]Exit to Main Menu\n");
+    int x;
+    scanf("%d",&x);
+    if(x==1)
+    {
+        add();
     }
-    printf("\n\n\n\t\t\tEnter rate:");
-    scanf("%d",&rt);
-    flag=0;
-    while(!feof(f)) {
-        fscanf(f,"%d\t%s\t%lf",&item.code,item.name,&item.rate);
-        if(rt==(int)item.rate) {
-            flag=1;
-
-            break;
-        }
+}
+void buy()
+{
+    system("cls");
+    int j;
+    printf("\t\t\t\t\t\tEnter the number of distinct products you want to buy: ");
+    scanf("%d",&j);
+    while(j--)
+    {
+        printf("\t\t\t\t\t\tEnter the name of the product and the quantity respectively: ");
+        scanf("%s %d",del,&qntrem);
+        rem();
+        printf("\t\t\t\t\t\tPay the amount of %f: ",qntrem*tempcost);
+        int r;
+        scanf("%d",&r);
     }
-    if(flag==0)
-        printf("\nNot Found!!\n");
-    else {
-        printf("\n\t\tCode\tName\tRate\n");
-        printf("\n\t\t%d\t%s\t%.2lf\n",item.code,item.name,item.rate);
-    }
-    fclose(f);
-    printf("\nPress any key to main menu.");
+    printf("\t\t\t\t\t\tPress any key to continue to the main menu\n");
     getch();
 }
-
-void by_name() {
+void view()
+{
+    int i=1,j=1;
     system("cls");
-    f=fopen("list.txt","r");
-    if(f==NULL) {
-        printf("\nfile not found\n");
-        printf("\nPress any key to main menu.");
-        getch();
-        return;
-    }
-    char nm[20];
-    printf("\n\n\n\t\t\tEnter name:");
-    scanf("%s",nm);
-    flag=0;
-    while(!feof(f)) {
-        fscanf(f,"%d\t%s\t%lf\n",&item.code,item.name,&item.rate);
-        if(!stricmp(nm,item.name)) {
-            flag=1;
-            break;
-        }
-    }
-    if(flag==0)
-        printf("\nNot Found!!\n");
-    else {
-        printf("\n\t\tCode\tName\tRate\n");
-        printf("\n\t\t%d\t%s\t%.2lf\n",item.code,item.name,item.rate);
-    }
-    fclose(f);
-    printf("\nPress any key to main menu.");
-    getch();
-}
-
-
-void viewBYname() {
-    system("cls");
-    f=fopen("list.txt","r");
-    if(f==NULL) {
-        printf("\nfile not found\n");
-        printf("\nPress any key to main menu.");
-        getch();
-        return;
-    }
-    product item[100];
-    double tmp;
-    char temp[20];
-    i=0;
-    while(!feof(f)) {
-        fscanf(f,"%d\t%s\t%lf\n",&item[i].code,item[i].name,&item[i].rate);
+    f=fopen("stock.txt","r");
+    while(fread(&p,sizeof(struct product),1,f)==0)
+    {
+        printf("%s %d %f",p.name,p.quantity,p.cost);
         i++;
+        j++;
     }
-    for(k=0; k<i; k++) {
-        for(j=k; j<i; j++) {
-            if(strcmp(item[k].name,item[j].name)>0) {
-                tmp=item[k].rate;
-                item[k].rate=item[j].rate;
-                item[j].rate=tmp;
-
-                item[k].code=item[k].code^item[j].code;
-                item[j].code=item[k].code^item[j].code;
-                item[k].code=item[k].code^item[j].code;
-
-                strcpy(temp,item[k].name);
-                strcpy(item[k].name,item[j].name);
-                strcpy(item[j].name,temp);
-
-            }
-        }
-    }
-    printf("\n\t\tName            Code       Rate\n");
-    for(k=0; k<i; k++)
-        printf("\t\t%-11s   %6d   %8.2lf\n",item[k].name,item[k].code,item[k].rate);
     fclose(f);
-    printf("\nPress any key to main menu.");
-    getch();
 }
-
-
-void viewBYrate() {
-    system("cls");
-    f=fopen("list.txt","r");
-    if(f==NULL) {
-        printf("\nfile not found\n");
-        printf("\nPress any key to main menu.");
-        getch();
-        return;
-    }
-    product item[100];
-    double tmp;
-    char temp[20];
-    i=0;
-
-    while(!feof(f)) {
-        fscanf(f,"%d\t%s\t%lf\n",&item[i].code,item[i].name,&item[i].rate);
-        i++;
-    }
-    for(k=0; k<i; k++) {
-        for(j=k; j<i; j++) {
-            if(item[k].rate>item[j].rate) {
-                tmp=item[k].rate;
-                item[k].rate=item[j].rate;
-                item[j].rate=tmp;
-
-                item[k].code=item[k].code^item[j].code;
-                item[j].code=item[k].code^item[j].code;
-                item[k].code=item[k].code^item[j].code;
-
-                strcpy(temp,item[k].name);
-                strcpy(item[k].name,item[j].name);
-                strcpy(item[j].name,temp);
-
-            }
-        }
-    }
-    printf("\n\t\t    Rate   Name            Code\n");
-    for(k=0; k<i; k++)
-        printf("\t\t%8.2lf   %-11s   %6d\n",item[k].rate,item[k].name,item[k].code);
-    fclose(f);
-    printf("\nPress any key to main menu.");
-    getch();
-}
-
-
-void viewBYcode() {
-    system("cls");
-    f=fopen("list.txt","r");
-    if(f==NULL) {
-        printf("\nfile not found\n");
-        printf("\nPress any key to main menu.");
-        getch();
-        return;
-    }
-    product item[100];
-    double tmp;
-    char temp[20];
-    i=0;
-    while(!feof(f)) {
-        fscanf(f,"%d\t%s\t%lf\n",&item[i].code,item[i].name,&item[i].rate);
-        i++;
-    }
-    for(k=0; k<i; k++) {
-        for(j=k; j<i; j++) {
-            if(item[k].code>item[j].code) {
-                tmp=item[k].rate;
-                item[k].rate=item[j].rate;
-                item[j].rate=tmp;
-
-                item[k].code=item[k].code^item[j].code;
-                item[j].code=item[k].code^item[j].code;
-                item[k].code=item[k].code^item[j].code;
-
-                strcpy(temp,item[k].name);
-                strcpy(item[k].name,item[j].name);
-                strcpy(item[j].name,temp);
-
-            }
-        }
-    }
-    printf("\n\t\t  Code   Name              Rate\n");
-    for(k=0; k<i; k++)
-        printf("\t\t%6d   %-11s   %8.2lf\n",item[k].code,item[k].name,item[k].rate);
-    fclose(f);
-    printf("\nPress any key to main menu.");
-    getch();
-}
-
-void dltByName() {
-    system("cls");
-    FILE *dlt;
-    double p=-1;
-    f=fopen("list.txt","r");
-    if(f==NULL) {
-        printf("\nfile not found\n");
-        printf("\nPress any key to main menu.");
-        getch();
-        return;
-    }
-    dlt=fopen("temp.txt","w");
-    char namedlt[15];
-    printf("\n\n\t\tEnter item name:");
-    scanf("%s",namedlt);
-    flag=0;
-    while(!feof(f)) {
-        fscanf(f,"%d\t%s\t%lf\n",&item.code,item.name,&item.rate);
-        if(!stricmp(namedlt,item.name)) {
-            flag=1;
-            while(1) {
-                printf("\nPlease pay %.2lf Taka(0 to discard):",item.rate);
-                scanf("%lf",&p);
-                if(p==0)break;
-                if(p==item.rate) {
-                    printf("\nyou are successfully buy this item.\n");
-                    p=1;
-                    break;
+int main()
+{
+    printf("\t\t\t\t\t\tWelcome\n\n\n");
+    int x;
+    do
+    {
+        printf("\t\t\t\t\t\tLogin to the System as:\n");
+        printf("\t\t\t\t\t\t[1]A Customer\n\t\t\t\t\t\t[2]An Owner\n\t\t\t\t\t\t[0]Exit from the System\n\t\t\t\t\t\t");
+        scanf("%d",&x);
+        if(x==1)
+        {
+            view();
+            buy();
+        }else if(x==2)
+        {
+            system("cls");
+            printf("\t\t\t\t\t\tLogin to the Management System\n\t\t\t\t\t\tEnter the Password to Login: ");
+            int y=pass;
+            do
+            {
+                if(y!=pass)
+                {
+                    printf("\t\t\t\t\t\tWrong Password. Try Again: ");
                 }
+                scanf("%d",&y);
+            } while (y!=pass);
+            if(y==pass)
+            {
+                sys();
             }
         }
-        if(p!=1)
-            fprintf(dlt,"%d\t%s\t%.2lf\n",item.code,item.name,item.rate);
-        p=-1;
-    }
-    fclose(f);
-    fclose(dlt);
-    if(flag==0)
-        printf("\nName not found\n");
-    remove("list.txt");
-    rename("temp.txt","list.txt");
-    fclose(f);
-    printf("\nPress any key to main menu.");
-    getch();
-}
-
-void dltByCode() {
-    system("cls");
-    FILE *dlt;
-    f=fopen("list.txt","r");
-    if(f==NULL) {
-        printf("\nfile not found\n");
-        printf("\nPress any key to main menu.");
-        getch();
-        return;
-    }
-    dlt=fopen("temp.txt","w");
-    int codlt;
-    double p=-1;
-    printf("\n\n\t\tEnter item code:");
-    scanf("%d",&codlt);
-    flag=0;
-    while(!feof(f)) {
-        fscanf(f,"%d\t%s\t%lf\n",&item.code,item.name,&item.rate);
-        if(codlt==item.code) {
-            flag=1;
-            while(1) {
-                printf("\nPlease pay %.2lf Taka(0 to discard):",item.rate);
-                scanf("%lf",&p);
-                if(p==0)break;
-                if(p==item.rate) {
-                    printf("\nyou are successfully buy this item.\n");
-                    p=1;
-                    break;
-                }
-            }
-        }
-        if(p!=1)
-            fprintf(dlt,"%d\t%s\t%.2lf\n",item.code,item.name,item.rate);
-        p=-1;
-    }
-    fclose(f);
-    fclose(dlt);
-    if(flag==0)
-        printf("\nCode not found\n");
-    remove("list.txt");
-    rename("temp.txt","list.txt");
-    fclose(f);
-    printf("\nPress any key to main menu.");
-    getch();
+    }while(x==1 || x==2);
 }
