@@ -6,6 +6,8 @@
 int pass=123,qntrem;
 float tempcost;
 char del[100];
+int totalsold=0;
+
 FILE *f;
 struct product
 {
@@ -54,6 +56,10 @@ void sys()
     {
         add();
     }
+    if(x==2);
+    {
+        printf("Total sold products income: %d\n",totalsold);
+    }
 }
 void buy()
 {
@@ -67,11 +73,24 @@ void buy()
         scanf("%s %d",del,&qntrem);
         rem();
         printf("\t\t\t\t\t\tPay the amount of %f: ",qntrem*tempcost);
-        int r;
-        scanf("%d",&r);
+        totalsold+=qntrem*tempcost;
+        float r;
+        scanf("%f",&r);
+        if(r==qntrem*tempcost)
+        {
+              printf("\t\t\t\t\t\tPress any key to continue to the main menu\n");
+                 getch();
+        }
+        else
+        {
+            while(r!=qntrem*tempcost)
+            {
+            printf("Invalid Entry.Please pay the amount again:");
+            scanf("%f",&r);
+            }
+        }
     }
-    printf("\t\t\t\t\t\tPress any key to continue to the main menu\n");
-    getch();
+    
 }
 void view()
 {
@@ -97,7 +116,7 @@ int main()
         scanf("%d",&x);
         if(x==1)
         {
-            view();
+            //view();
             buy();
         }else if(x==2)
         {
