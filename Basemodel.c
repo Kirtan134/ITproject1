@@ -50,105 +50,128 @@ void add_item();
 void read_item();
 void search_item();
 void edit_item();
-int main()
+void main(void)
+
 {
-	system("01");
-	wel_come(); //call for welcome screen function
-	login(); //call for login function
+wel_come(); //call for welcome screen function
+login(); //call for login function
 }
 
+
+
 void wel_come(void)
+
 {
-	system("01");
 	time_t t;
 	time(&t);
 	printf("                                                                                                         \n");
 	printf("---------------------------------------------------------------------------------------------------------\n");
 	printf("\t\t\t\t\t%s",ctime(&t));
 	printf("---------------------------------------------------------------------------------------------------------\n");
-	printf("|\t\t\t\t==================================\t\t\t\t\t|\n");
-	printf("|\t\t\t\t|\t    WELCOME TO \t\t |\t\t\t\t\t|\n");
-	printf("|\t\t\t\t|  INVENTORY MANAGEMENT SYSTEM   |\t\t\t\t\t|\n");
-	printf("|\t\t\t\t==================================\t\t\t\t\t|\n");
-	printf("|\t\t\t\t   Press any key to continue.........\t\t\t\t\t|\n");
+	printf("|\t\t\t\t\t\t\t\t\t\t\t\t\t\t|\n");
+	printf("|\t\t\t\t\t\t\t\t\t\t\t\t\t\t|\n");
+	printf("|\t\t\t\t\t\t\t\t\t\t\t\t\t\t|\n");
+	printf("|\t\t\t\t\t\t\t\t\t\t\t\t\t\t|\n");
+	printf("|\t\t\t\t\t\t\t\t\t\t\t\t\t\t|\n");
+	printf("|\t\t\t\t==================================\t\t\t\t\t\t|\n");
+	printf("|\t\t\t\t|\t     WELCOME TO \t |\t\t\t\t\t\t|\n");
+	printf("|\t\t\t\t|\tPRODUCT MGMT SYSTEM\t |\t\t\t\t\t\t|\n");
+	printf("|\t\t\t\t==================================\t\t\t\t\t\t|\n");
+	printf("|\t\t\t\t            Address      \t\t\t\t\t\t\t|\n");
+	printf("|\t\t\t\t\t     Number\t\t\t\t\t\t\t\t|\n");
+	printf("|\t\t\t\t      \"WE BELIEVE IN QUALITY\"\t\t\t\t\t\t\t|\n");
+	printf("|\t\t\t\t\t\t\t\t\t\t\t\t\t\t|\n");
+	printf("|\t\t\t\t\t\t\t\t\t\t\t\t\t\t|\n");
+	printf("|\t\t\t\t\t\t\t\t\t\t\t\t\t\t|\n");
+	printf("|\t\t\t\t\t\t\t\t\t\t\t\t\t\t|\n");
+	printf("|\t\t\t\t\t\t\t\t\t\t\t\t\t\t|\n");
+	printf("|\t\t\t\t\t\t\t\t\t\t\t\t\t\t|\n");
+	printf("|\t\t\t\t\t\t\t\t\t\t\t\t\t\t|\n");
+	printf("|Press any key to continue.........\t\t\t\t\t\t\t\t\t\t|\n");
+
 	printf("---------------------------------------------------------------------------------------------------------\n");
-	getch();
-	system("cls");
+	 
+getch();
+system("cls");
 }
 
 void login()
 {
-	system("01");
-	int a=0,i=0;
+
+int a=0,i=0;
     char uname[10],c=' '; 
     char pword[10],code[10];
     char user[10]="user";
     char pass[10]="pass";
     do
+{
+	
+    printf("\n  ========================  LOGIN   ========================  ");
+    printf(" \n                        USERNAME:-");
+	scanf("%s", &uname); 
+	printf(" \n                        PASSWORD:-");
+	while(i<10)
 	{
-		
-		printf("\n  ========================  LOGIN   ========================  ");
-		printf(" \n                        USERNAME:-");
-		scanf("%s", &uname); 
-		printf(" \n                        PASSWORD:-");
-		while(i<10)
-		{
-			pword[i]=getch();
-			c=pword[i];
-			if(c==13)
-			{
-				break;
-			}
-			else
-			{
-				printf("*");
-			}
-			i++;
-		}
-		pword[i]='\0';
-		//char code=pword;
-		i=0;
-		//scanf("%s",&pword); 
-		if(strcmp(uname,"user")==0 && strcmp(pword,"pass")==0)
-		{
-			printf("  \n\n\n       WELCOME TO PRODUCT MANAGEMENT SYSTEM !!!! LOGIN IS SUCCESSFUL");
-			printf("\n\n\n\t\t\t\tPress any key to continue...");
-			getch();//holds the screen
-			menu();	
-			break;
-		}
-		else
-		{
-			printf("\n        WRONG CREDENTIALS !!!!  LOGIN IS UNSUCESSFUL");
-			a++;
-			getch();//holds the screen
-		}
+	    pword[i]=getch();
+	    c=pword[i];
+	    if(c==13) break;
+	    else printf("*");
+	    i++;
 	}
+	pword[i]='\0';
+	//char code=pword;
+	i=0;
+	//scanf("%s",&pword); 
+		if(strcmp(uname,"user")==0 && strcmp(pword,"pass")==0)
+	{
+	printf("  \n\n\n       WELCOME TO PRODUCT MANAGEMENT SYSTEM !!!! LOGIN IS SUCCESSFUL");
+	printf("\n\n\n\t\t\t\tPress any key to continue...");
+	getch();//holds the screen
+	break;
+	}
+	else
+	{
+		printf("\n        SORRY !!!!  LOGIN IS UNSUCESSFUL");
+		a++;
+		
+		getch();//holds the screen
+		
+	}
+}
 	while(a<=2);
 	if (a>2)
 	{
-		printf("\nSorry you have entered the wrong username and password for too many times!!!");
+		printf("\nSorry you have entered the wrong username and password for four times!!!");
+		
 		getch();
 		
-	}
-	system("cls");
+		}
+		system("cls");
+		menu();	
 }
+	
+	
 
 void menu(void)
 {
 	int choice;
-	system("01");
 	system("cls");
-	printf("\n======================== Product Management System ========================\n\n");
+	main:
+	printf("\n======================== Product Management System ========================");
+	printf("                                                                                          ");
+	printf("                                                                                          ");
 	printf("\n\t\tPress <1> Add Products");
 	printf("\n\t\tPress <2> Delete Products");
 	printf("\n\t\tPress <3> Search Products");
 	printf("\n\t\tPress <4> Read Items");
 	printf("\n\t\tPress <5> Edit Items");
 	printf("\n\t\tPress <6> Exit!");	
+	
 	printf("\n\n\t\tEnter your choice[1-6]");
 	scanf("%i", &choice);
+	
 	system("cls");
+	
 	switch(choice)	
 	{
 		case 1:
@@ -158,22 +181,23 @@ void menu(void)
 			deleteproduct();
 			break;
 		case 3:
-			search_item();
+		search_item();
 			break;
 		case 4:
-			read_item();
+		read_item();
 			break;	
 		case 5:
 			edit_item();
 			break;
 		case 6:
-			printf("System Exit");
-			exit(0);
-			break;
+		printf("System Exit");
+		exit(0);
+		break;
+			
+		
 		default:
-			printf("Invalid Choice! System Exit\n");
+		printf("Invalid Choice! System Exit\n");
 			getch();
-			break;
 	}
 	
 }
@@ -183,7 +207,10 @@ void add_item()
 	int index, valid;
 	char c;
 	int a=0;
+
 	FILE *fp;
+	
+
 	do
 	{
 		system("cls");
